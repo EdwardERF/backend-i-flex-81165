@@ -1,0 +1,17 @@
+[
+  {
+    "id": "deff466e-25c1-4619-bce7-eb7f21e6886f",
+    "title": "Teclado",
+    "price": 2000,
+    "stock": 2
+  },
+  {
+    "id": "a2209ee6-524f-40b1-8710-52a78c90753a",
+    "title": "Teclado rojaso",
+    "description": "Teclado re inalambrico",
+    "stock": 1,
+    "code": "1221FR3",
+    "price": 1500,
+    "thumbnail": ""
+  }
+]
