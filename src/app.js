@@ -1,12 +1,14 @@
 import express from "express";
 import ProductManager from "./productManager.js";
+import CartManager from "./cartManager.js";
 
 const app = express();
 // Habilitamos poder recibir data en formato JSON
 app.use( express.json() );
 const productManager = new ProductManager("./src/products.json");
+const cartManager = new CartManager("./src/carts.json");
 
-//endpoints
+//endpoints de products
 app.get( "/", (req, res) => {
   res.json({ message: "Hola Mundo!!!" });
 });
@@ -49,6 +51,27 @@ app.put( "/api/products/:pid", async (req, res) => {
 
     const updatedProducts = await productManager.setProductsById(pid, update);
     res.status(200).json({ message: "Producto actualizado", updatedProducts });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+//endpoints de carts
+app.post( "/api/carts", async (req, res) => {
+  try {
+    const carts = await cartManager.addCart();
+    res.status(201).json({ message: "Carrito agregado", carts });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get( "/api/carts/:cid", async (req, res) => {
+  try {
+    const cid = req.params.cid;
+
+    const cartProducts = await cartManager.getProductsByCartId(cid);
+    res.status(200).json({ message: "Se muestran lista de productos", cartProducts });  
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

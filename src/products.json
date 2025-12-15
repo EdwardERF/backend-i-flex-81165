@@ -1,17 +1,25 @@
 [
   {
     "id": "deff466e-25c1-4619-bce7-eb7f21e6886f",
-    "title": "Teclado",
-    "price": 2000,
-    "stock": 2
+    "title": "Mouse verde",
+    "description": "Mouse inalambrico verde",
+    "code": "1221FR4",
+    "price": 1200,
+    "status": true,
+    "stock": 10,
+    "category": "Informatica",
+    "thumbnail": ""
   },
   {
     "id": "a2209ee6-524f-40b1-8710-52a78c90753a",
-    "title": "Teclado rojaso",
-    "description": "Teclado re inalambrico",
-    "stock": 1,
+    "title": "Teclado rojo",
+    "description": "Teclado inalambrico",
     "code": "1221FR3",
     "price": 1500,
+    "status": true,
+    "stock": 1,
+    "category": "Informatica",
     "thumbnail": ""
   }
 ]
+
