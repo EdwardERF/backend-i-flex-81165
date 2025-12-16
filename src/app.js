@@ -77,6 +77,19 @@ app.get( "/api/carts/:cid", async (req, res) => {
   }
 });
 
+app.post( "/api/carts/:cid/product/:pid", async (req, res) => {
+  try {
+
+    const cid = req.params.cid;
+    const pid = req.params.pid;
+    
+    const carts = await cartManager.addProductToCart(cid, pid);
+    res.status(201).json({ message: "Producto agregado a carrito", carts });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 app.listen(8080, ()=> {
   console.log("Servidor iniciado en el puerto 8080!");
 });

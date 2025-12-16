@@ -2,8 +2,14 @@
   {
     "id": "c2c1cf4e-9b0d-4060-9cfc-11f26b33b6ed",
     "products": [
-      "deff466e-25c1-4619-bce7-eb7f21e6886f",
-      "a2209ee6-524f-40b1-8710-52a78c90753a"
+      {
+        "productId": "deff466e-25c1-4619-bce7-eb7f21e6886f",
+        "quantity": 3
+      },
+      {
+        "productId": "a2209ee6-524f-40b1-8710-52a78c90753a",
+        "quantity": 1
+      }
     ]
   }
 ]
