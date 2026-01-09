@@ -34,18 +34,18 @@ app.use("/api/carts", cartsRouter);
 io.on("connection", (socket)=> {
   console.log("Nuevo usuario conectado");
   //emitimos un evento desde el servidor al cliente
-  socket.emit("message history", messages);
+  // socket.emit("message history", messages);
 
   //escuchamos un evento
-  socket.on("new message", (data)=> {
-    messages.push(data);
+  // socket.on("new message", (data)=> {
+  //   messages.push(data);
 
-    io.emit("broadcast new message", data);
-  });
+  //   io.emit("broadcast new message", data);
+  // });
 
 });
 
-app.listen(8080, ()=> {
+server.listen(8080, ()=> {
   console.log("Servidor iniciado en el puerto 8080!");
 });
 
