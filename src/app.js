@@ -30,18 +30,22 @@ app.use("/", viewsRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 
+// persistencia en memoria de los mensajes de chat
+const messages = [];
+
 //websockets desde el servidor
 io.on("connection", (socket)=> {
   console.log("Nuevo usuario conectado");
   //emitimos un evento desde el servidor al cliente
-  // socket.emit("message history", messages);
+  socket.emit("message history", messages);
 
   //escuchamos un evento
-  // socket.on("new message", (data)=> {
-  //   messages.push(data);
+  socket.on("new message", (data)=> {
+    messages.push(data);
+    console.log(messages);
 
-  //   io.emit("broadcast new message", data);
-  // });
+    io.emit("broadcast new message", data);
+  });
 
 });
 
