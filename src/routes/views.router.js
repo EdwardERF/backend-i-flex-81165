@@ -4,20 +4,19 @@ import ProductManager from "../productManager.js";
 const viewsRouter = express.Router();
 const productManager = new ProductManager("./src/products.json");
 
-viewsRouter.get("/", (req, res)=> {
-  res.render("home");
+viewsRouter.get("/", async (req, res)=> {
+  
+  const products = await productManager.getProducts();
+  
+  res.render("home", { products });
 });
 
-viewsRouter.get("/dashboard", async(req, res)=> {
+viewsRouter.get("/realtimeproducts", async (req, res)=> {
   
-  try {
-    const user = { username: "LunaDev", isAdmin: false }
-    const products = await productManager.getProducts();
+  const products = await productManager.getProducts();
   
-    res.render("dashboard", { products, user });
-  } catch (error) {
-    console.log(error);
-  }
+  res.render("realTimeProducts", { products });
 });
+
 
 export default viewsRouter;
