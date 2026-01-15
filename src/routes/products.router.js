@@ -4,7 +4,6 @@ import Product from "../models/product.model.js";
 import uploader from "../utils/uploader.js";
 
 const productsRouter = express.Router();
-const productManager = new ProductManager("./src/products.json");
 
 // Ruteo producto con Mongoose para get("/")
 productsRouter.get("/", async (req, res)=> {
