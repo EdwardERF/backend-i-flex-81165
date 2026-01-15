@@ -8,11 +8,12 @@ import http from "http";
 import ProductManager from "./productManager.js";
 import connectMongoDB from "./config/db.js";
 import dotenv from "dotenv";
+import __dirname from "../dirname.js";
 
 // Se inicializan las variables de entorno
-dotenv.config();
+dotenv.config({ path: __dirname + "/.env" });
 
-const productManager = new ProductManager("./src/products.json");
+const productManager = new ProductManager(__dirname + "/src/products.json");
 
 const app = express();
 
@@ -26,7 +27,7 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 // Habilitamos la carpeta public para archivos estaticos
-app.use( express.static("public") );
+app.use( express.static(__dirname + "/public") );
 
 // Habilitamos para que pueda utilizar archivos JSON
 app.use(express.json());
