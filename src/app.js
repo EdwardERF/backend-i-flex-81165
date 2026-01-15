@@ -6,10 +6,28 @@ import cartsRouter from "./routes/carts.router.js";
 import { Server } from "socket.io";
 import http from "http";
 import ProductManager from "./productManager.js";
+import mongoose from "mongoose";
 
 const productManager = new ProductManager("./src/products.json");
 
 const app = express();
+
+// Variable de entorno
+const PORT = 8080;
+
+// Creamos conexion a MongoDB
+const connectMongoDB = async () => {
+  try {
+    await mongoose.connect("mongodb+srv://edward:admin@productscluster.ib1dhrl.mongodb.net/productsDB?appName=ProductsCluster");
+    console.log("Conectado con MongoDB");
+  } catch (error) {
+    console.error("Error al conectar con MongoDB");
+    // Se mata el servidor en caso de error.
+    process.exit(1);
+  }
+}
+connectMongoDB();
+
 const server = http.createServer(app);
 //websocket
 const io = new Server(server);
@@ -73,7 +91,7 @@ io.on("connection", async (socket)=> {
 
 });
 
-server.listen(8080, ()=> {
+server.listen(PORT, ()=> {
   console.log("Servidor iniciado en el puerto 8080!");
 });
 
