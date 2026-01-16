@@ -1,21 +1,61 @@
 import mongoose from "mongoose";
+import productsRouter from "../routes/products.router.js";
 
 const productSchema = new mongoose.Schema(
   {
-    title: String,
-    description: String,
-    code: String,
-    price: Number,
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+      minLength: 5,
+      maxLength: 100
+    },
+    description: {
+      type: String,
+      required: true,
+      minLength: 10,
+      maxLength: 500
+    },
+    code: {
+      type: String,
+      required: true,
+      trim: true,
+      uppercase: true
+    },
+    price: {
+      type: Number,
+      required: true,
+      min: 0
+    },
+    stock: {
+      type: Number,
+      required: true,
+      min: 0
+    },
     status: {
       type: Boolean,
       default: true
     },
-    stock: Number,
-    category: String,
-    thumbnail: String
+    category: {
+      type: String,
+      required: true,
+      enum: ["Auriculares", "Teclados", "Mouse"]
+    },
+    thumbnail: {
+      type: String,
+      trim: true,
+      default: "product.jpg"
+    }
   },
   {timestamps: true}
 );
+
+// Indices
+productSchema.index({ title: 1 }, { unique: true });
+productSchema.index({ description: "text" });
+productSchema.index({ code: 1 }, { unique: true });
+productSchema.index({ price: 1 });
+productSchema.index({ category: 1 });
 
 const Product = mongoose.model("Product", productSchema);
 
