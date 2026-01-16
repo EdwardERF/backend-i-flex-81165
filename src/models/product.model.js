@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import productsRouter from "../routes/products.router.js";
+import paginate from "mongoose-paginate-v2";
 
 const productSchema = new mongoose.Schema(
   {
@@ -56,6 +56,9 @@ productSchema.index({ description: "text" });
 productSchema.index({ code: 1 }, { unique: true });
 productSchema.index({ price: 1 });
 productSchema.index({ category: 1 });
+
+// Plugins
+productSchema.plugin(paginate);
 
 const Product = mongoose.model("Product", productSchema);
 

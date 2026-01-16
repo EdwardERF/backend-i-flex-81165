@@ -26,4 +26,12 @@
       {{/each}}
     </div>
   </section>
+
+  <div class="pagination-wrapper">
+    {{#each links}}
+      <a href="{{this.link}}" class="pagination-item">
+        {{this.text}}
+      </a>
+    {{/each}}
+  </div>
 </div>

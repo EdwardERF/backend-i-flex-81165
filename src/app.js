@@ -39,7 +39,7 @@ app.use( express.urlencoded({ extended: true }) );
 // handlebars config
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
-app.set("views", "./src/views");
+app.set("views", __dirname + "/src/views");
 
 //endpoints
 app.use("/", viewsRouter);
