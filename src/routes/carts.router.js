@@ -1,51 +1,13 @@
 import express from "express";
-import Cart from "../models/cart.model.js";
-import { throwHttpError } from "../utils/httpError.js";
+import { createCart, getCartById, addProductToCart } from "../controllers/cart.controller.js"
 
 const cartsRouter = express.Router();
 
 // Ruteo cart con Mongoose para post("/"
-cartsRouter.post("/", async (req, res, next) => {
-  try {
-    const newCart = await Cart.create({});
-    res.status(201).json({ status: "success", payload: newCart });
-  } catch (error) {
-    next(error);
-  }
-});
+cartsRouter.post("/", createCart);
 
+cartsRouter.get( "/:cid", getCartById);
 
-cartsRouter.get( "/:cid", async (req, res) => {
-  try {
-    const cid = req.params.cid;
-
-    const cart = await Cart.findById(cid).populate("products.product");
-    if(!cart) throwHttpError("Carrito no encontrado", 404);
-    
-    res.status(200).json({ status: "success", payload: cart.products });  
-  } catch (error) {
-    next(error);
-  }
-});
-
-cartsRouter.post( "/:cid/product/:pid", async (req, res, next) => {
-  try {
-    const { cid, pid } = req.params;
-    const { quantity } = req.body;
-    
-    // Verificar que el producto exista
-
-    // Verificar que el carrito exista
-
-    // Verificar si el producto existe en el carrito
-    // Si existe, incrementar la cantidad
-    // Si no existe, agregarlo como nuevo
-    
-    const updatedCart = await Cart.findByIdAndUpdate(cid, { $push: { products: { product: pid, quantity } } }, { new: true, runValidators: true })
-    res.status(201).json({ status: "success", payload: updatedCart });
-  } catch (error) {
-    next(error);
-  }
-});
+cartsRouter.post( "/:cid/product/:pid", addProductToCart);
 
 export default cartsRouter;
