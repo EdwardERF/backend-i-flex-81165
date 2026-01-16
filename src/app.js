@@ -9,6 +9,7 @@ import ProductManager from "./productManager.js";
 import connectMongoDB from "./config/db.js";
 import dotenv from "dotenv";
 import __dirname from "../dirname.js";
+import { errorHandler } from "./middlewares/error.middleware.js";
 
 // Se inicializan las variables de entorno
 dotenv.config({ path: __dirname + "/.env" });
@@ -84,6 +85,9 @@ io.on("connection", async (socket)=> {
   });
 
 });
+
+// Inicializo el middleware de error
+app.use(errorHandler);
 
 server.listen(PORT, ()=> {
   console.log("Servidor iniciado en el puerto 8080!");
