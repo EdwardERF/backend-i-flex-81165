@@ -1,19 +1,16 @@
 import express from "express";
-import CartManager from "../cartManager.js";
 import Cart from "../models/cart.model.js";
+import { throwHttpError } from "../utils/httpError.js";
 
 const cartsRouter = express.Router();
-const cartManager = new CartManager("./src/carts.json");
 
 // Ruteo cart con Mongoose para post("/"
-cartsRouter.post("/", async (req, res) => {
+cartsRouter.post("/", async (req, res, next) => {
   try {
-    const receivedCart = req.body;
-    
-    const newCart = await Cart.create(receivedCart);
-    res.status(201).json({ status: "success", newCart });
+    const newCart = await Cart.create({});
+    res.status(201).json({ status: "success", payload: newCart });
   } catch (error) {
-    res.status(500).json({ status: "error", message: "Error al agregar carrito" });
+    next(error);
   }
 });
 
@@ -30,23 +27,32 @@ cartsRouter.get( "/:cid", async (req, res) => {
   try {
     const cid = req.params.cid;
 
-    const cartProducts = await cartManager.getProductsByCartId(cid);
-    res.status(200).json({ message: "Se muestran lista de productos", cartProducts });  
+    const cart = await Cart.findById(cid).populate("products.product");
+    if(!cart) throwHttpError("Carrito no encontrado", 404);
+    
+    res.status(200).json({ status: "success", payload: cart.products });  
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 });
 
-cartsRouter.post( "/:cid/product/:pid", async (req, res) => {
+cartsRouter.post( "/:cid/product/:pid", async (req, res, next) => {
   try {
-
-    const cid = req.params.cid;
-    const pid = req.params.pid;
+    const { cid, pid } = req.params;
+    const { quantity } = req.body;
     
-    const carts = await cartManager.addProductToCart(cid, pid);
-    res.status(201).json({ message: "Producto agregado a carrito", carts });
+    // Verificar que el producto exista
+
+    // Verificar que el carrito exista
+
+    // Verificar si el producto existe en el carrito
+    // Si existe, incrementar la cantidad
+    // Si no existe, agregarlo como nuevo
+    
+    const updatedCart = await Cart.findByIdAndUpdate(cid, { $push: { products: { product: pid, quantity } } }, { new: true, runValidators: true })
+    res.status(201).json({ status: "success", payload: updatedCart });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 });
 
