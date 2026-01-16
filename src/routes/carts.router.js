@@ -14,14 +14,6 @@ cartsRouter.post("/", async (req, res, next) => {
   }
 });
 
-// cartsRouter.post("/", async (req, res) => {
-//   try {
-//     const carts = await cartManager.addCart();
-//     res.status(201).json({ message: "Carrito agregado", carts });
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// });
 
 cartsRouter.get( "/:cid", async (req, res) => {
   try {
