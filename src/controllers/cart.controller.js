@@ -82,3 +82,20 @@ export const deleteCartById = async(req, res, next) => {
     next(error);
   }
 }
+
+export const deleteProductFromCart = async(req, res, next) => {
+  try {
+    console.log(req.params)
+    
+    const { cid, pid } = req.params;
+
+    const updatedCart = await Cart.findOneAndUpdate({ _id: cid, "products.product": pid },{ $pull: { products: { product: pid } } },{ new: true });
+    
+    // En caso de que el deletedCart no exista, va a ser un caso en donde no encontró el Id, por lo que retornamos error.
+    if(!updatedCart) throwHttpError("Carrito o producto no encontrado", 404);
+
+    res.status(200).json({ status: "success", payload: updatedCart });
+  } catch (error) {
+    next(error);
+  }
+}
